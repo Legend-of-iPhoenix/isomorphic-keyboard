@@ -2,7 +2,7 @@ const SEMITONE = 1.05946309436;
 
 const BASELINE = 1046.50; // C6
 
-const synth = new Tone.Synth().toDestination();
+const synth = new Tone.PolySynth().toDestination();
 
 function pitch(row, column) {
   return BASELINE * Math.pow(SEMITONE, column + (row % 2)) / Math.pow(Math.sqrt(2), row)
