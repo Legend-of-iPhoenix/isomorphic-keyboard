@@ -5,7 +5,7 @@ const BASELINE = 1046.50; // C6
 const synth = new Tone.Synth().toDestination();
 
 function pitch(row, column) {
-  return BASELINE * Math.pow(SEMITONE, column - (row % 2)) / Math.pow(Math.sqrt(2), row)
+  return BASELINE * Math.pow(SEMITONE, column + (row % 2)) / Math.pow(Math.sqrt(2), row)
 }
 
 function attachListeners(key, row, column) {
