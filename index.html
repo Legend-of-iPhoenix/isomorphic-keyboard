@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title></title>
+
+	<style>
+	.unit {
+		position: relative;
+
+		width: 5em;
+		height: 5em;
+		display: inline-block;
+	}
+
+	.unit > * {
+		cursor: pointer;
+	}
+
+	.approachKey {
+		background-color: #28AFB0;
+
+		display: inline-block;
+
+		width: calc(29.2893% - 2px);
+		height: calc(29.2893% - 2px);
+
+		position: absolute;
+		top: 20.7107%;
+		z-index: 1000;
+	}
+
+	.key {
+		background-color: #19647E;
+		width: calc(70.7107% - 2px);
+		height: calc(70.7107% - 2px);
+		display: inline-block;
+
+		position: absolute;
+		left: 29.2893%;
+
+		clip-path: polygon(29.2893% 0%, 70.7107% 0%, 100% 29.2893%, 100% 70.7107%, 70.7107% 100%, 30% 100%, 0% 70.7107%, 0% 29.2893%);
+
+		z-index: 1000;
+	}
+
+	.row:nth-child(even) {
+		position: absolute;
+		margin-top: -2.5em;
+		margin-left: 2.5em;
+	}
+
+	.row {
+		display: flex;
+	}
+
+	.row * {
+		flex-shrink: 0;
+	}
+</style>
+</head>
+<body>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/tone/14.7.70/Tone.js" integrity="sha512-Jtpulg+MetcfDc/gBVH55BhrH0S/pod5p7+Aj8sKdwV1qi4AlFbKIeFr2NT/exNQMT4iKPT5pTMy2u02Z8Eh5Q==" crossorigin="anonymous"></script>
+
+	<script src="main.js"></script>
+</body>
+</html>
