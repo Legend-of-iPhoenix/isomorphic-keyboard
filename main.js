@@ -9,17 +9,13 @@ function pitch(row, column) {
 }
 
 function attachListeners(key, row, column) {
-  key.onmousedown = async (event) => {
-    await Tone.start();
-    const now = Tone.now();
-    synth.triggerAttackRelease(pitch(row, column), 0.25, now)
-  }
-  
-  key.ontouchstart = async (event) => {
+  key.onmousedown = key.ontouchstart = async (event) => {
     event.stopPropagation();
     await Tone.start();
     const now = Tone.now();
-    synth.triggerAttackRelease(pitch(row, column), 0.25, now)
+    synth.triggerAttackRelease(pitch(row, column), 0.25, now);
+
+    event.preventDefault();
   }
 }
 
