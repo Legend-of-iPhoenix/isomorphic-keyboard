@@ -12,10 +12,13 @@ function attachListeners(key, row, column) {
   key.onmousedown = key.ontouchstart = async (event) => {
     event.stopPropagation();
     await Tone.start();
-    const now = Tone.now();
-    synth.triggerAttackRelease(pitch(row, column), 0.25, now);
+    synth.triggerAttack(pitch(row, column), Tone.now());
 
     event.preventDefault();
+  }
+
+  key.onmouseup = key.onmouseleave = key.ontouchend = (event) => {
+    synth.triggerRelease(pitch(row, column), Tone.now());
   }
 }
 
