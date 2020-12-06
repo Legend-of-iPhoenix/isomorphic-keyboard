@@ -2,23 +2,62 @@ const SEMITONE = 1.05946309436;
 
 const BASELINE = 1046.50; // C6
 
-const synth = new Tone.PolySynth().toDestination();
+class MultiSynth {
+  constructor(synth=Tone.Synth, numVoices=5) {
+    this.availableVoices = [];
 
-function pitch(row, column) {
-  return BASELINE * Math.pow(SEMITONE, column + (row % 2)) / Math.pow(Math.sqrt(2), row)
+    for (let i = 0; i < numVoices; ++i) {
+      this.availableVoices.push(new synth().toDestination());
+    }
+
+    this.allocation = {};
+  }
+
+  getId(row, column) {
+    return row + "_" + column;
+  }
+
+  pitch(row, column) {
+    return BASELINE * Math.pow(SEMITONE, column + (row % 2)) / Math.pow(Math.sqrt(2), row)
+  }
+
+  triggerAttack(row, column) {
+    const id = this.getId(row, column);
+    if (this.allocation[id] != null) return;
+
+    const voice = this.availableVoices.pop();
+    if (voice === undefined) return;
+
+    this.allocation[id] = voice;
+
+    voice.triggerAttack(this.pitch(row, column));
+  }
+
+  triggerRelease(row, column) {
+    const id = this.getId(row, column);
+    const voice = this.allocation[id];
+    if (voice == null) return;
+    this.allocation[id] = null;
+
+    this.availableVoices.push(voice);
+
+    voice.triggerRelease();
+  }
 }
+
+const synth = new MultiSynth();
 
 function attachListeners(key, row, column) {
   key.onmousedown = key.ontouchstart = async (event) => {
     event.stopPropagation();
     await Tone.start();
-    synth.triggerAttack(pitch(row, column), Tone.now());
+    synth.triggerAttack(row, column);
 
     event.preventDefault();
   }
 
   key.onmouseup = key.onmouseleave = key.ontouchend = (event) => {
-    synth.triggerRelease(pitch(row, column), Tone.now());
+    synth.triggerRelease(row, column);
   }
 }
 
