@@ -11,6 +11,9 @@ class MultiSynth {
     }
 
     this.allocation = {};
+
+    this.yPos = {};
+    this.detune = {};
   }
 
   getId(row, column) {
@@ -43,6 +46,29 @@ class MultiSynth {
 
     voice.triggerRelease();
   }
+
+  pitchShiftStart(row, column, y) {
+    const id = this.getId(row, column);
+    if (this.allocation[id] == null) return;
+
+    this.yPos[id] = y;
+    this.detune[id] = 0;
+  }
+
+  pitchShiftMove(row, column, y) {
+    const id = this.getId(row, column);
+    if (this.allocation[id] == null) return;
+
+    const delta = this.yPos[id] - y;
+
+    this.yPos[id] = y;
+
+    this.detune[id] += delta;
+    if (Math.abs(this.detune[id]) >= 10) {
+      const synth = this.allocation[id];
+      synth.setNote(this.pitch(row, column) * (1 + Math.sign(this.detune[id]) * (Math.abs(this.detune[id]) - 10)/200));
+    }
+  }
 }
 
 const synth = new MultiSynth();
@@ -52,8 +78,13 @@ function attachListeners(key, row, column) {
     event.stopPropagation();
     await Tone.start();
     synth.triggerAttack(row, column);
+    synth.pitchShiftStart(row, column, event.clientY || event.touches[0].clientY);
 
     event.preventDefault();
+  }
+
+  key.onmousemove = key.ontouchmove = (event) => {
+    synth.pitchShiftMove(row, column, event.clientY || event.touches[0].clientY);
   }
 
   key.onmouseup = key.onmouseleave = key.ontouchend = (event) => {
