@@ -93,6 +93,7 @@ function attachListeners(key, row, column) {
 }
 
 function generate(rows, columns) {
+  const keyboard = document.getElementById("keyboard");
   for (let row = 0; row < rows; ++row) {
     const rowElement = document.createElement("div");
     rowElement.classList = "row";
@@ -113,7 +114,7 @@ function generate(rows, columns) {
       rowElement.appendChild(unit);
     }
     
-    document.body.appendChild(rowElement);
+    keyboard.appendChild(rowElement);
   }
 }
 

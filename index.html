@@ -10,12 +10,27 @@
 		 overscroll-behavior: contain;
 	}
 	
+	body, html {
+		width: 100vw;
+		height: 100vh;
+		margin: 0;
+	}
+
+	/* https://mademyday.de/height-equals-width-with-pure-css/ */
 	.unit {
 		position: relative;
 
-		width: 5em;
-		height: 5em;
+		width: 11.484870922109948%;
+
 		display: inline-block;
+
+		flex-shrink: 0;
+	}
+
+	.unit::before {
+		content: "";
+		float: left;
+		padding-top: 100%;
 	}
 
 	.unit > * {
@@ -27,8 +42,8 @@
 
 		display: inline-block;
 
-		width: calc(29.2893% - 2px);
-		height: calc(29.2893% - 2px);
+		width: calc(29.2893% - 1px);
+		height: calc(29.2893% - 1px);
 
 		position: absolute;
 		top: 20.7107%;
@@ -37,7 +52,7 @@
 
 	.key {
 		background-color: #19647E;
-		width: calc(70.7107% - 2px);
+		width: calc(70.7107% - 1px);
 		height: calc(70.7107% - 2px);
 		display: inline-block;
 
@@ -49,24 +64,38 @@
 		z-index: 1000;
 	}
 
-	.row:nth-child(even) {
-		position: absolute;
-		margin-top: -2.5em;
-		margin-left: 2.5em;
+	.row:nth-child(even)::before {
+		content: "";
+		float: left;
+		padding-left: 5.742435461054974%;
 	}
 
 	.row {
 		display: flex;
+		margin-bottom: -5.742435461054974%;
 	}
 
-	.row * {
-		flex-shrink: 0;
+	#keyboard {
+		width: 100vw;
+		height: 54.06051631156019vw;
+
+		max-height: 100vh;
+		max-width: 184.97788556750464vh;
+
+		margin: auto;
+		position: fixed;
+		top: 0;
+		left: 0;
+		bottom: 0;
+		right: 0;
 	}
 </style>
 </head>
 <body>
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/tone/14.7.70/Tone.js" integrity="sha512-Jtpulg+MetcfDc/gBVH55BhrH0S/pod5p7+Aj8sKdwV1qi4AlFbKIeFr2NT/exNQMT4iKPT5pTMy2u02Z8Eh5Q==" crossorigin="anonymous"></script>
 
+	<div id="keyboard"></div>
+	
 	<script src="main.js"></script>
 </body>
 </html>
